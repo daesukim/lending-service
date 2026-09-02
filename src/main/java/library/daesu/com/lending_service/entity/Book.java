@@ -3,21 +3,13 @@ package library.daesu.com.lending_service.entity;
 import jakarta.persistence.*;
 import library.daesu.com.lending_service.entity.enums.BookStatus;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(name = "book")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+public class Book extends BaseEntity {
 
     @Column(nullable = false, unique = true, length = 13)
     private String isbn;
@@ -38,21 +30,8 @@ public class Book {
     private int availableCopies;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private BookStatus status;
-
-    @Version
-    @Column
-    private Long version;
-
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
-
-    @UpdateTimestamp
-    @Column(nullable = false)
-    private Instant updatedAt;
-
 
     @Builder
     public Book(String isbn, String title, String author, Integer publishedYear, int totalCopies, int availableCopies, BookStatus status) {
